@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import { ContactForm } from './components/ContactForm/index';
 import { Filter } from 'components/Filter';
 import { ContactList } from './components/ContactList/index';
+import styles from './App.module.css';
 
 export class App extends React.Component {
   state = {
@@ -44,23 +45,22 @@ export class App extends React.Component {
     const addContact = this.addContact;
     const { filter } = this.state;
     const filtredContacts = this.filtredContacts();
-    const lengthOfContacts = this.state.contacts.length;
     const onChangeFilter = this.onChangeFilter;
     const onRemoveContact = this.onRemoveContact;
 
     return (
-      <div className='app'>
+      <div className={styles.app}>
         <h1>Phonebook</h1>
         <ContactForm addContact={addContact} />
         <h2>Contacts</h2>
         <Filter filter={filter} onChange={onChangeFilter} />
-        {lengthOfContacts ? (
+        {this.state.contacts.length ? (
           <ContactList
             contacts={filtredContacts}
             onRemoveContact={onRemoveContact}
           />
         ) : (
-          <h2 className='notification'>Contact list is empty</h2>
+          <h2 className={styles.notification}>Contact list is empty</h2>
         )}
       </div>
     );
