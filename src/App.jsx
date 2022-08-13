@@ -1,0 +1,68 @@
+import React from 'react';
+import { nanoid } from 'nanoid';
+
+import { ContactForm } from './components/ContactForm/index';
+import { Filter } from 'components/Filter';
+import { ContactList } from './components/ContactList/index';
+
+export class App extends React.Component {
+  state = {
+    contacts: [],
+    filter: '',
+  };
+
+  addContact = ({ name, number }) => {
+    const newContact = { id: nanoid(), name, number };
+
+    !this.state.contacts.some(
+      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+    )
+      ? this.setState(({ contacts }) => ({
+          contacts: [...contacts, newContact],
+        }))
+      : alert(`${name} is already in contacts.`);
+  };
+
+  onRemoveContact = contactId => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+    }));
+  };
+
+  onChangeFilter = event => {
+    this.setState({ filter: event.currentTarget.value });
+  };
+
+  filtredContacts = () =>
+    this.state.filter
+      ? this.state.contacts.filter(({ name }) =>
+          name.toLowerCase().includes(this.state.filter.toLowerCase())
+        )
+      : this.state.contacts;
+
+  render() {
+    const addContact = this.addContact;
+    const { filter } = this.state;
+    const filtredContacts = this.filtredContacts();
+    const lengthOfContacts = this.state.contacts.length;
+    const onChangeFilter = this.onChangeFilter;
+    const onRemoveContact = this.onRemoveContact;
+
+    return (
+      <div className='app'>
+        <h1>Phonebook</h1>
+        <ContactForm addContact={addContact} />
+        <h2>Contacts</h2>
+        <Filter filter={filter} onChange={onChangeFilter} />
+        {lengthOfContacts ? (
+          <ContactList
+            contacts={filtredContacts}
+            onRemoveContact={onRemoveContact}
+          />
+        ) : (
+          <h2 className='notification'>Contact list is empty</h2>
+        )}
+      </div>
+    );
+  }
+}
