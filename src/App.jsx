@@ -24,9 +24,9 @@ export class App extends React.Component {
       : alert(`${name} is already in contacts.`);
   };
 
-  onRemoveContact = contactId => {
+  onRemoveContact = Id => {
     this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
+      contacts: prevState.contacts.filter(contact => contact.id !== Id),
     }));
   };
 
