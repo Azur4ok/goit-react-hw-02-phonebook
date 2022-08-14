@@ -12,7 +12,7 @@ export class App extends React.Component {
     filter: '',
   };
 
-  addContact = ({ name, number }) => {
+  onAddContact = ({ name, number }) => {
     const newContact = { id: nanoid(), name, number };
 
     !this.state.contacts.some(
@@ -34,7 +34,7 @@ export class App extends React.Component {
     this.setState({ filter: event.currentTarget.value });
   };
 
-  filtredContacts = () =>
+  onFilterContacts = () =>
     this.state.filter
       ? this.state.contacts.filter(({ name }) =>
           name.toLowerCase().includes(this.state.filter.toLowerCase())
@@ -42,21 +42,21 @@ export class App extends React.Component {
       : this.state.contacts;
 
   render() {
-    const addContact = this.addContact;
+    const onAddContact = this.onAddContact;
     const { filter } = this.state;
-    const filtredContacts = this.filtredContacts();
+    const filteredContacts = this.onFilterContacts();
     const onChangeFilter = this.onChangeFilter;
     const onRemoveContact = this.onRemoveContact;
 
     return (
       <div className={styles.app}>
         <h1>Phonebook</h1>
-        <ContactForm addContact={addContact} />
+        <ContactForm onAddContact={onAddContact} />
         <h2>Contacts</h2>
         <Filter filter={filter} onChange={onChangeFilter} />
         {this.state.contacts.length ? (
           <ContactList
-            contacts={filtredContacts}
+            contacts={filteredContacts}
             onRemoveContact={onRemoveContact}
           />
         ) : (

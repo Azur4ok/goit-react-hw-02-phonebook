@@ -5,7 +5,7 @@ import styles from './ContactForm.module.css';
 
 export class ContactForm extends React.Component {
   static propTypes = {
-    addContact: PropTypes.func.isRequired,
+    onAddContact: PropTypes.func.isRequired,
   };
 
   state = {
@@ -25,7 +25,7 @@ export class ContactForm extends React.Component {
     if (!this.state.name && !this.state.number) {
       return alert('Invalid name or number');
     }
-    this.props.addContact(this.state);
+    this.props.onAddContact(this.state);
     this.resetState();
   };
 
